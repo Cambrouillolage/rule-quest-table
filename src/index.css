@@ -8,35 +8,56 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Board Game Inspired Color Palette */
+    --background: 42 78% 95%; /* Warm cream, like game table */
+    --foreground: 25 25% 15%; /* Dark brown, like wooden game pieces */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%; /* Pure white for speech bubbles */
+    --card-foreground: 25 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 25 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Rich wood primary color */
+    --primary: 25 65% 35%; /* Rich walnut brown */
+    --primary-foreground: 42 78% 95%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Playful secondary colors */
+    --secondary: 210 100% 85%; /* Light blue like player pieces */
+    --secondary-foreground: 25 25% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted tones */
+    --muted: 42 45% 88%; /* Lighter wood tone */
+    --muted-foreground: 25 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent colors for game elements */
+    --accent: 15 100% 70%; /* Warm orange like dice */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 42 30% 85%;
+    --input: 42 30% 85%;
+    --ring: 25 65% 35%;
 
-    --radius: 0.5rem;
+    /* Board game specific colors */
+    --game-red: 0 85% 60%; /* Classic game red */
+    --game-blue: 220 85% 60%; /* Classic game blue */
+    --game-green: 140 85% 45%; /* Classic game green */
+    --game-yellow: 45 95% 65%; /* Classic game yellow */
+    
+    /* Wood textures and gradients */
+    --wood-gradient: linear-gradient(135deg, hsl(25, 45%, 75%) 0%, hsl(25, 35%, 65%) 100%);
+    --table-gradient: linear-gradient(180deg, hsl(42, 78%, 95%) 0%, hsl(42, 60%, 88%) 100%);
+    --speech-bubble-gradient: linear-gradient(145deg, hsl(0, 0%, 100%) 0%, hsl(42, 20%, 97%) 100%);
+    
+    /* Playful shadows */
+    --shadow-soft: 0 4px 12px hsl(25, 25%, 15%, 0.1);
+    --shadow-meeple: 0 6px 16px hsl(25, 65%, 35%, 0.2);
+    --shadow-speech: 0 8px 24px hsl(25, 25%, 15%, 0.15);
+
+    --radius: 1rem; /* More rounded for playful feel */
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +122,104 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    background: var(--table-gradient);
+    font-family: 'Comic Neue', 'Fredoka One', cursive, sans-serif;
+  }
+}
+
+@layer components {
+  /* Speech Bubble Styles */
+  .speech-bubble {
+    @apply relative rounded-2xl p-4 max-w-md;
+    background: var(--speech-bubble-gradient);
+    box-shadow: var(--shadow-speech);
+  }
+  
+  .speech-bubble::before {
+    content: '';
+    @apply absolute w-0 h-0;
+    border-style: solid;
+  }
+  
+  .speech-bubble-left::before {
+    @apply -left-2 top-4;
+    border-width: 8px 12px 8px 0;
+    border-color: transparent hsl(var(--card)) transparent transparent;
+  }
+  
+  .speech-bubble-right::before {
+    @apply -right-2 top-4;
+    border-width: 8px 0 8px 12px;
+    border-color: transparent transparent transparent hsl(var(--card));
+  }
+
+  /* Meeple Animation */
+  .meeple-bounce {
+    animation: meeple-bounce 2s ease-in-out infinite;
+  }
+  
+  .meeple-roll {
+    animation: meeple-roll 3s linear infinite;
+  }
+
+  /* Game Button Styles */
+  .game-button {
+    @apply relative overflow-hidden rounded-xl px-6 py-3 font-bold text-white transition-all duration-300;
+    background: var(--wood-gradient);
+    box-shadow: var(--shadow-meeple);
+    transform: translateY(0);
+  }
+  
+  .game-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px hsl(25, 65%, 35%, 0.3);
+  }
+  
+  .game-button:active {
+    transform: translateY(0);
+  }
+
+  /* Brand Banner */
+  .brand-banner {
+    @apply relative rounded-lg px-4 py-2 text-sm font-bold;
+    background: linear-gradient(45deg, hsl(var(--game-red)), hsl(var(--game-yellow)));
+    color: white;
+    box-shadow: var(--shadow-soft);
+    transform: rotate(-2deg);
+  }
+}
+
+@layer utilities {
+  /* Game Colors */
+  .text-game-red { color: hsl(var(--game-red)); }
+  .text-game-blue { color: hsl(var(--game-blue)); }
+  .text-game-green { color: hsl(var(--game-green)); }
+  .text-game-yellow { color: hsl(var(--game-yellow)); }
+  
+  .bg-game-red { background-color: hsl(var(--game-red)); }
+  .bg-game-blue { background-color: hsl(var(--game-blue)); }
+  .bg-game-green { background-color: hsl(var(--game-green)); }
+  .bg-game-yellow { background-color: hsl(var(--game-yellow)); }
+}
+
+/* Keyframes for animations */
+@keyframes meeple-bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  40% {
+    transform: translateY(-10px) rotate(-5deg);
+  }
+  60% {
+    transform: translateY(-5px) rotate(5deg);
+  }
+}
+
+@keyframes meeple-roll {
+  0% {
+    transform: translateX(-100px) rotate(0deg);
+  }
+  100% {
+    transform: translateX(100px) rotate(360deg);
   }
 }
